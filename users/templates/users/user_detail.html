@@ -1,0 +1,8 @@
+<h2>Thông tin người dùng</h2>
+<ul>
+  <li>Tên đăng nhập: {{ user.username }}</li>
+  <li>Email: {{ user.email }}</li>
+  <li>Ngày tạo: {{ user.date_joined }}</li>
+  <li>Là admin: {{ user.is_staff }}</li>
+</ul>
+<a href="{% url 'user_list' %}">Quay lại danh sách</a>
