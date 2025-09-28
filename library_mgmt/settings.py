@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 """
 Django settings for library_mgmt project.
 
@@ -20,10 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9ura4n@b_5nmf00-qw52d!9%!3krm^!(#!5$swlv=gh-da7u6y'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+load_dotenv()  # Đọc file .env
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'books',
     'borrow',
     'users',
+    'rest_framework',
 
 ]
 
@@ -136,3 +138,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}

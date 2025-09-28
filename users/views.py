@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from .forms import RegisterForm
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import UserSerializer
 
 @user_passes_test(lambda u: u.is_staff)
 def user_list(request):
@@ -41,3 +44,9 @@ def logout_view(request):
 def user_detail(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     return render(request, 'users/user_detail.html', {'user': user})
+
+@api_view(['GET'])
+def api_user_list(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
